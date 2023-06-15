@@ -1,8 +1,10 @@
 from django.http import HttpResponse
-
+from .models import Question
+from django.shortcuts import render
 
 def index(request):
-    return HttpResponse("You are in the main page of premiosplatziapp")
+    latest_question_list = Question.objects.all()
+    return render(request, "polls/index.html",{"latest_question_list" : latest_question_list})
 
 
 # Create your views here.
