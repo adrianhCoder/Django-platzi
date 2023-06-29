@@ -13,7 +13,7 @@
      value = '{{choice.id}}'
      >
     <label for="choice{{ forloop.counter}}">
-      {{choice.choice_text}}
+      {{choice.choice_text}}--{{choice.id}}
     </label>
     <br>
     {% endfor %}
