@@ -12,8 +12,13 @@
      id = "choice{{ forloop.counter}}"
      value = '{{choice.id}}'
      >
+    <label for="choice{{ forloop.counter}}">
+      {{choice.choice_text}}
+    </label>
+    <br>
     {% endfor %}
   </fieldset>
+  <input type="submit" value="Vote">
 </form>
 
 {% comment %}
