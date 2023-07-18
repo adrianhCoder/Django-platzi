@@ -3,6 +3,7 @@ import datetime
 from .models import Question
 
 from django.test import TestCase
+from django.urls.base import reverse
 from django.utils import timezone
 
 # Create your tests here.
@@ -30,5 +31,9 @@ class QuestionModelTests(TestCase):
 
 
 class QuestionIndexViewTests(TestCase):
-    def no_test_questions(self):
+    def test_no_questions(self):
         """If there is no questions , an appropiate message is displayed"""
+        response = self.client.get(reverse("polls:index"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No polls are available")
+        self.assertQuerysetEqual(response.context["latest_question_list"], [])
