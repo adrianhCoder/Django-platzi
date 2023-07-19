@@ -37,3 +37,18 @@ class QuestionIndexViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "No polls are available")
         self.assertQuerysetEqual(response.context["latest_question_list"], [])
+
+    def test_no_future_questions_showed(self):
+        """Checks if a future question is showed in the index"""
+        Question(question_text='Present Question', pub_date=timezone.now()).save()
+        Question(question_text='Future Question', pub_date=timezone.now() + datetime.timedelta(days=30)).save()
+        
+        response = self.client.get(reverse('polls:index'))
+        self.assertEqual(response.status_code, 200)
+
+        self.assertContains(response, "Present Question")
+        self.assertNotContains(response, "Future Question")
+       # print(Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5])
+
+
+
