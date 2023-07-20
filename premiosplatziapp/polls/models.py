@@ -11,7 +11,19 @@ class Question(models.Model):
     pub_date = models.DateTimeField("date published")
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
+        ##super().save(*args, **kwargs)
+
+        choices = kwargs.get("choices")  # retrieve al questions
+
+        if choices and len(choices) > 0:
+            kwargs.pop("choices", None)
+            super().save(*args, **kwargs)  # If choices > 0 save question
+
+            for choice in choices:  # Iterate trough all choices
+                choice.question = self  # Asign choice to the questions
+                choice.save()  # Save it
+        else:
+            raise ValueError("Should have choices")
 
         if self.choice_set.all().count() == 0:
             super().delete()
