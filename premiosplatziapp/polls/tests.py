@@ -1,6 +1,6 @@
 import datetime
 
-from .models import Question
+from .models import Question,Choice
 
 from django.test import TestCase
 from django.urls.base import reverse
@@ -8,6 +8,8 @@ from django.utils import timezone
 
 # Create your tests here.
 
+
+def Create_Question(days)
 
 class QuestionModelTests(TestCase):
     def test_was_published_recently_with_future_questions(self):
@@ -69,10 +71,11 @@ class QuestionDetailViewTests(TestCase):
 
     def test_past_question(self):
         """Checks if past questions are url avaiable"""
-        question = Question.objects.create(
+        question = Question(
             question_text="Future Question",
             pub_date=timezone.now() - datetime.timedelta(days=30),
         )
+        Choice.objects.create()
         url = reverse("polls:detail", args=(question.id,))
         response = self.client.get(url)
         self.assertContains(response, question.question_text)
