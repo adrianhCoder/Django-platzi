@@ -40,15 +40,39 @@ class QuestionIndexViewTests(TestCase):
 
     def test_no_future_questions_showed(self):
         """Checks if a future question is showed in the index"""
-        Question(question_text='Present Question', pub_date=timezone.now()).save()
-        Question(question_text='Future Question', pub_date=timezone.now() + datetime.timedelta(days=30)).save()
-        
-        response = self.client.get(reverse('polls:index'))
+        Question(question_text="Present Question", pub_date=timezone.now()).save()
+        Question(
+            question_text="Future Question",
+            pub_date=timezone.now() + datetime.timedelta(days=30),
+        ).save()
+
+        response = self.client.get(reverse("polls:index"))
         self.assertEqual(response.status_code, 200)
 
         self.assertContains(response, "Present Question")
         self.assertNotContains(response, "Future Question")
-       # print(Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5])
+
+    # print(Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5])
 
 
+class QuestionDetailViewTests(TestCase):
+    def test_future_question(self):
+        """If question id not exists, get 404"""
+        question = Question.objects.create(
+            question_text="Future Question",
+            pub_date=timezone.now() + datetime.timedelta(days=30),
+        )
 
+        url = reverse("polls:detail", args=(question.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_past_question(self):
+        """Checks if past questions are url avaiable"""
+        question = Question.objects.create(
+            question_text="Future Question",
+            pub_date=timezone.now() - datetime.timedelta(days=30),
+        )
+        url = reverse("polls:detail", args=(question.id,))
+        response = self.client.get(url)
+        self.assertContains(response, question.question_text)
