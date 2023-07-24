@@ -15,22 +15,24 @@ class Question(models.Model):
     pub_date = models.DateTimeField("date published")
 
     def save(self, *args, **kwargs):
-        ##super().save(*args, **kwargs)
-        is_added_from_admin = models.BooleanField(default=False)
-        if(is_added_from_admin):
-            print("HELL YHEA")
-            #### Here is the juice!
-        choices = kwargs.get("choices")  # retrieve al questions
+        super().save(*args, **kwargs)
 
-        if choices and len(choices) > 0:
-            kwargs.pop("choices", None)
-            super().save(*args, **kwargs)  # If choices > 0 save question
+        is_added_from_admin = models.BooleanField(default=False)# Code to know if question is sended from admin panel
+        
+        if not is_added_from_admin:
+            choices = kwargs.get("choices")  # retrieve al questions
 
-            for choice in choices:  # Iterate trough all choices
-                choice.question = self  # Asign choice to the questions
-                choice.save()  # Save it
-        else:
-            raise ValueError("Should have choices")
+            if choices and len(choices) > 0:
+                kwargs.pop("choices", None)
+                super().save(*args, **kwargs)  # If choices > 0 save question
+
+                for choice in choices:  # Iterate trough all choices
+                    choice.question = self  # Asign choice to the questions
+                    choice.save()  # Save it
+            else:
+                raise ValueError("Should have choices")
+            
+       
 
         
 
