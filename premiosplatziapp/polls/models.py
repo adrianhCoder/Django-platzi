@@ -2,6 +2,10 @@ from django.db import models
 from django.utils import timezone
 import datetime
 
+from django.db import models
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
+
 
 # Create your models here.
 
@@ -12,7 +16,10 @@ class Question(models.Model):
 
     def save(self, *args, **kwargs):
         ##super().save(*args, **kwargs)
-
+        is_added_from_admin = models.BooleanField(default=False)
+        if(is_added_from_admin):
+            print("HELL YHEA")
+            #### Here is the juice!
         choices = kwargs.get("choices")  # retrieve al questions
 
         if choices and len(choices) > 0:
@@ -25,9 +32,7 @@ class Question(models.Model):
         else:
             raise ValueError("Should have choices")
 
-        if self.choice_set.all().count() == 0:
-            super().delete()
-            raise Exception("Question must have at least one choice")
+        
 
     def __str__(self):
         return self.question_text
@@ -38,6 +43,7 @@ class Question(models.Model):
             >= self.pub_date
             >= timezone.now() - datetime.timedelta(days=1)
         )
+
 
 
 class Choice(models.Model):
