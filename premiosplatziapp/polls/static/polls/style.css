@@ -1,16 +1,63 @@
-li a{
-    color : white;
-}
-li a:link, a:visited, a:focus {
-    border-radius: 10%;
-    background: gray;
+body, header, ul, li, footer {
+    align-items: center;
+    display: flex;
+    justify-content: center;
 }
 
-li  a:hover {
-    background: orange;
+header, ul {
+    background: linear-gradient(
+        to right,
+        hsl(98, 100%, 62%),
+        hsl(204, 100%,  59%)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
 }
 
-li  a:active {
-    background: red;
+body {
+    margin: 0; /* Reset margin to eliminate unwanted spacing */
+    display: flex; /* Set display to flex for the body */
+    min-height: 100vh; /* Use min-height instead of height */
+   background: hsl(204, 100%, 5%);
+   flex-direction: column;
+   font-family: Arial, Helvetica, sans-serif;
+   height: 100vh;
+}
+
+header {
+    color: #71622d;
+    font-size: 36px; /* Decreased font size */
+    height: 120px; /* Increased height */
+    padding: 20px; /* Adjusted padding for better visibility */
+    display: flex; /* Add display flex for centering content */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+}
+ul {
+    list-style: none; /* Remove default list styles */
+    margin: 0; /* Reset margin to eliminate unwanted spacing */
+    padding: 0; /* Reset padding to eliminate unwanted spacing */
+    flex-wrap: wrap; /* Wrap items onto new lines when they exceed container width */
+    justify-content: center; /* Center items horizontally */
+}
+
+li {
+    border: 1px solid white;
+    font-size: 20px; /* Decreased font size */
+    margin-bottom: 10px; /* Decreased margin */
+    padding: 20px; /* Decreased padding */
+    width: 500px;
+}
+
+
+a {
     color: white;
+    text-decoration: none;
+}
+
+footer {
+    justify-content: space-evenly;
+    padding: 50px 0;
+    width: 100vw;
 }
