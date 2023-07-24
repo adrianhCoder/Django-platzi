@@ -1,10 +1,11 @@
 from django.db import models
 from django.utils import timezone
-import datetime
-
 from django.db import models
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
+from django.contrib import admin
+
+import datetime
 
 
 # Create your models here.
@@ -38,6 +39,12 @@ class Question(models.Model):
 
     def __str__(self):
         return self.question_text
+    
+    @admin.display(
+        boolean=True,
+        ordering='pub_date',
+        description='Published recently?',
+    )
 
     def was_published_recently(self):
         return (

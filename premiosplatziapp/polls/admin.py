@@ -12,6 +12,11 @@ class QuestionAdmin(admin.ModelAdmin):
     fields = ["pub_date","question_text"]
     inlines = [ChoiceInline]
 
+    # This is powefull
+    list_display = ("question_text","pub_date","was_published_recently")
+    list_filter = ["pub_date"]
+    search_fields = ["question_text"]
+
     def save_model(self, request, obj, form, change):
         if request.user.is_superuser:  # Check if the user is an admin user
             # Custom logic for saving when added/modified from admin
