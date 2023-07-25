@@ -4,21 +4,20 @@
     <legend><h1>{{question.question_text}}</h1></legend>
     {% if error_message %}
     <p><strong>{{error_message1}}</strong></p>
-    {% endif %} 
-    {% for choice in question.choice_set.all %}
+    {% endif %} {% for choice in question.choice_set.all %}
     <input
-     type="radio"
-     name = "choice"
-     id = "choice{{ forloop.counter}}"
-     value = '{{choice.id}}'
-     >
+      type="radio"
+      name="choice"
+      id="choice{{ forloop.counter}}"
+      value="{{choice.id}}"
+    />
     <label for="choice{{ forloop.counter}}">
       {{choice.choice_text}}--{{choice.id}}
     </label>
-    <br>
+    <br />
     {% endfor %}
   </fieldset>
-  <input type="submit" value="Vote">
+  <input type="submit" value="Vote" />
 </form>
 
 {% comment %}
